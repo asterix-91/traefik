@@ -1,0 +1,71 @@
+api:
+  dashboard: true
+
+entryPoints:
+  web:
+    address: :80
+
+  websecure:
+    address: :443
+    http3:
+      advertisedPort: 443
+    http:
+      tls:
+        certResolver: myresolver
+        options: default
+
+accessLog:
+  filePath: "/var/log/traefik/access.log"
+  bufferingSize: 100
+  format: json
+  filters:
+    statusCodes:
+      - "200"
+      - "300-302"
+      - "404"
+    retryAttempts: true
+    MinDuration: "10ms"
+  fields:
+    defaultMode: keep
+    names:
+      StartUTC: drop
+    headers:
+      defaultMode: keep
+
+pilot:
+    token: "xxxxxx-xxxxxx-xxxxxxx-xxxxxx-xxxxxxx"
+
+experimental:
+#  plugins:
+#    log4shell:
+#      modulename: github.com/traefik/plugin-log4shell
+#      version: v0.1.0
+  http3: true
+  hub: true
+
+#hub:
+#  tls:
+#    insecure: true
+
+#metrics:
+#  prometheus:
+#    addRoutersLabels: true
+
+log:
+  level: DEBUG
+
+providers:
+  docker:
+    exposedByDefault: false
+
+  file:
+    directory: /etc/traefik/custom/
+    watch: true
+
+certificatesResolvers:
+  myresolver:
+    acme:
+      email: "youyou@yourfavoriteprovider.com"
+      storage: "./letsencrypt/acme.json"
+      httpChallenge:
+        entryPoint: web
