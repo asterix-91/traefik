@@ -12,4 +12,4 @@ Fichier à modifier :
 
 Lancer le tout docker-compose up -d 
 
-Services en https , ssllabs A+, compatible http/3
+Services en https , ssllabs A+, securityheaders A+, compatible http/3
