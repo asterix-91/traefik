@@ -1,12 +1,15 @@
 # traefik
-Traefik
 
+git clone https://github.com/asterix-91/traefik.git
+
+cd /traefik
 
 Fichier à modifier : 
 
-- config.yml
-- /config/proxy.yml
-- /config/deluge.yml
-
+- config.yml : modifier son email pour letsencrypt
+- /config/proxy.yml : modifier l'url 
+- /config/deluge.yml : modifier l'url
 
 Lancer le tout docker-compose up -d 
+
+Services en https , ssllabs A+, compatible http/3
