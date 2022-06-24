@@ -19,6 +19,23 @@ services:
     networks:
       - traefik
     restart: unless-stopped
+
+  # Deluge : P2P Dl Online
+  deluge:
+    image: linuxserver/deluge
+    container_name: deluge
+    environment:
+      - PUID=1000
+      - PGID=100
+      - TZ=Europe/Paris
+    cap_add:
+      - NET_ADMIN
+    networks:
+      - traefik
+    volumes:
+      - ${PWD}/deluge/:/config
+      - ${PWD}/deluge/downloads/:/downloads
+    restart: unless-stopped
     
 ## NETWORKS
 networks:
