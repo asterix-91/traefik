@@ -1,0 +1,32 @@
+# Dynamic Configuration
+http:
+  routers:
+    deluge:
+      entrypoints:
+        - web
+        - websecure
+      rule: Host(`deluge.lapaire.org`)
+      service: deluge
+      middlewares:
+        - SecHeaderDeluge@file
+        - test-redirectscheme@file
+  services:
+    deluge:
+      loadBalancer:
+        servers:
+          - url: "http://deluge:8112"
+  middlewares:
+    SecHeaderDeluge:
+      headers:
+        forceSTSHeader: true
+        referrerPolicy: "same-origin"
+        frameDeny: true
+        contentTypeNosniff: true
+        browserXssFilter: true
+        accessControlAllowMethods: ["GET", "OPTIONS", "PUT"]
+        accessControlMaxAge: 100
+        customFrameOptionsValue: "SAMEORIGIN"
+        #HSTS
+        stsIncludeSubdomains: true
+        stsPreload: true
+        stsSeconds: 31536000
