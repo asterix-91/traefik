@@ -1,0 +1,34 @@
+# Dynamic Configuration
+http:
+  routers:
+    dashboard:
+      entrypoints:
+        - web
+        - websecure
+      rule: Host(`proxy.lapaire.org`)
+      service: api@internal
+      middlewares:
+        - SecHeader@file
+        - test-redirectscheme@file
+  services:
+    dashboard:
+      loadBalancer:
+        servers:
+          - url: "http://traefik:80"
+  middlewares:
+    SecHeader:
+      headers:
+        #HSTS
+        stsIncludeSubdomains: true
+        stsPreload: true
+        stsSeconds: 31536000
+        forceSTSHeader: true
+        referrerPolicy: "same-origin"
+        frameDeny: true
+        contentTypeNosniff: true
+        contentSecurityPolicy: frame-ancestors 'self'; script-src 'self' *.lapaire.org proxy.lapaire.org; object-src 'self' *.lapaire.org proxy.lapaire.org; style-src 'self' *.lapaire.org proxy.lapaire.org
+        permissionsPolicy: geolocation=(), microphone=()
+        browserXssFilter: true
+        accessControlAllowMethods: ["GET", "OPTIONS", "PUT"]
+        accessControlMaxAge: 100
+        customFrameOptionsValue: "SAMEORIGIN
