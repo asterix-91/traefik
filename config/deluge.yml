@@ -26,6 +26,8 @@ http:
         accessControlAllowMethods: ["GET", "OPTIONS", "PUT"]
         accessControlMaxAge: 100
         customFrameOptionsValue: "SAMEORIGIN"
+        permissionsPolicy: geolocation=(), microphone=()
+        contentSecurityPolicy: frame-ancestors 'self'
         #HSTS
         stsIncludeSubdomains: true
         stsPreload: true
